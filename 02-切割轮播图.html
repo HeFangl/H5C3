@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;  
+        }
+        .box{
+            width: 560px;
+            height: 300px;
+            margin: 100px auto;
+            position: relative;
+        }
+        ul{
+            width: 100%;
+            height: 100%;
+            list-style: none;
+            /* transform: rotate3d(1,1,0,-30deg); */
+            transform-style: preserve-3d;
+        }
+        ul > li{
+            width: 25%;
+            height: 100%;
+            float: left;
+            position: relative;
+            /* 保留3d效果 */
+            transform-style: preserve-3d;
+            transition: transform 0.5s;
+        }
+        ul > li > span{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        ul > li > span:nth-of-type(1){
+            background: url("image/q1.jpg");
+            transform: translateZ(150px);
+        }
+        ul > li > span:nth-of-type(2){
+            background: url("image/q2.jpg");
+            transform: translateY(-150px) rotateX(90deg);
+        }
+        ul > li > span:nth-of-type(3){
+            background: url("image/q3.jpg");
+            transform: translateZ(-150px) rotateX(180deg);
+        }
+        ul > li > span:nth-of-type(4){
+            background: url("image/q4.jpg");
+            transform: translateY(150px) rotateX(-90deg);
+        }
+        /* 设置每个 li 的span 显示的图片位置 */
+        ul > li:nth-of-type(2) >span{
+            background-position: -100% 0;
+        }
+        ul > li:nth-of-type(3) >span{
+            background-position: -200% 0;
+        }
+        ul > li:nth-of-type(4) >span{
+            background-position: -300% 0;
+        }
+        ul > li:nth-of-type(5) > span {
+            background-position: -400% 0;
+        }
+        /* 左右箭头 */
+        .pre,
+        .next{
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            top: 50%;
+            text-decoration: none;
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.5);
+            line-height: 30px;
+            text-align: center;
+            font-size: 20px;
+            transform: translate(0,-50%);
+            
+        }
+        .pre{
+            left: 0;
+        }
+        .next{
+            right: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <ul>
+            <!-- 每个 li 显示图的一部分 -->
+            <li>    
+                <!-- 图1 一部分 -->
+                <span></span>
+                <!-- 图1 二部分 -->
+                <span></span>
+                <!-- 图1 三部分 -->
+                <span></span>
+                <!-- 图1 四部分 -->
+                <span></span>
+            </li>
+            <li>    
+                <!-- 图2 一部分 -->
+                <span></span>
+                <!-- 图2 二部分 -->
+                <span></span>
+                <!-- 图2 三部分 -->
+                <span></span>
+                <!-- 图2 四部分 -->
+                <span></span>
+            </li>
+            <li>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </li>
+            <li>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </li>
+        </ul> 
+        <!-- 左右箭头  a标签要加javascript:;-->
+        <a href="javascript:;" class="pre">&lt;</a>
+        <a href="javascript:;" class="next">&gt;</a>
+    </div>
+
+<script src="jquery.min.js"></script>
+<script>
+    $(function(){
+        /*定义图片索引*/
+        var index=0;
+        /*添加节流阀  true说明本次单击会有响应处理*/
+        var flag=true;
+        /*下一张*/
+        $(".next").on("click",function(){
+            if(flag==true){
+                /*设置节流阀*/
+                flag=false;
+                index--;
+                /*所谓下一张，就是将所有li元素围绕x旋转*/
+                $("li").each(function(key,value){ //0 1 2 3 4
+                    /*通过添加transform样式进行旋转*/
+                    $(this).css({
+                        "transform":"rotateX("+(index*90)+"deg)",
+                        "transition-delay":(key*0.2)+"s"
+                    });
+                });
+                setTimeout(function(){
+                    flag=true;
+                },1000);
+            }
+        });
+        /*上一张*/
+        $(".pre").on("click",function(){
+            if(flag==true){
+                /*设置节流阀*/
+                flag=false;
+                index++;
+                /*所谓下一张，就是将所有li元素围绕x旋转*/
+                $("li").each(function(key,value){ //0 1 2 3 4
+                    /*通过添加transform样式进行旋转*/
+                    $(this).css({
+                        "transform":"rotateX("+(index*90)+"deg)",
+                        "transition-delay":(key*0.2)+"s"
+                    });
+                });
+                setTimeout(function(){
+                    flag=true;
+                },1000);
+            }
+        });
+    });
+
+</script>
+</body>
+</html>
